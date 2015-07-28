@@ -1,0 +1,10 @@
+#Node modules folder
+node_modules/**/*
+
+#idea
+idea/**/*
+.idea/
+
+#javascript files for coffee
+*.js
+*.js.map
