@@ -1,6 +1,6 @@
 ctrl = module.exports
-
 Car = require '../models/Car/Car'
+
 #constants
 PRICE_PER_FIRST_HOUR = 7
 PRICE_PER_HOUR = 1
@@ -8,7 +8,7 @@ CURRENCY = "TL"
 
 #Init
 ctrl.init = (app, db) ->
-  app.get('/api/payment/settings', (req, resp) ->
+  app.get('/node/payment/settings', (req, resp) ->
     resp.send(
       code:200,
       message:"success",
@@ -18,7 +18,7 @@ ctrl.init = (app, db) ->
     )
   )
 
-  app.get('/api/payment/calculate/:time', (req, resp) ->
+  app.get('/node/payment/calculate/:time', (req, resp) ->
     time = req.params.time
     if time > 1
       total = PRICE_PER_FIRST_HOUR + (time - 1) * PRICE_PER_HOUR
@@ -32,7 +32,7 @@ ctrl.init = (app, db) ->
     )
   )
 
-  app.get('/payment/calculate-from-id/:id', (req, resp) ->
+  app.get('/node/payment/calculate-from-id/:id', (req, resp) ->
     id = req.params.id;
     cars = db.collection "cars"
     cars.find({'deviceId':id,'active':1}).toArray((err, cars) ->
@@ -67,7 +67,7 @@ ctrl.init = (app, db) ->
   )
 
 
-  app.get('/payment/pay/:id', (req, resp) ->
+  app.get('/node/payment/pay/:id', (req, resp) ->
     id = req.params.id
     cars = db.collection "cars"
     cars.findOneAndUpdate({'deviceId':id,'active':1},{$set:{'active':0}},(err, item) ->
@@ -87,21 +87,46 @@ ctrl.init = (app, db) ->
 
   )
 
-  app.get('/test', (req, resp) ->
+  app.get('/node/enter-car', (req, resp) ->
     deviceId = req.query.deviceId
     startDate = new Date()
     slot = req.query.slot
     floor = req.query.floor
-    car = new Car(deviceId, startDate, slot, floor, 1)
-    db.collection 'cars', (err, collection) =>
-      if err
-        console.error err
-      collection.insert car, (err, car) =>
+    @isAvailable = true
+    ctrl.checkDeviceId db, deviceId , (isAvailable) ->
+      if isAvailable
+        @isAvailable = true
+      else
+        @isAvailable = false
+
+    console.log @isAvailable
+    if floor <= global.FLOOR and floor >= 0 and isAvailable
+      car = new Car(deviceId, startDate, slot, floor, 1)
+      db.collection 'cars', (err, collection) =>
         if err
           console.error err
-    resp.send(
-      code: 200,
-      message: "success",
-      car: deviceId
-    )
+        collection.insert car, (err, car) =>
+          if err
+            console.error err
+      resp.send(
+          code: 200,
+          message: "success",
+          car: deviceId
+      )
+    else
+      console.log "test"
+      resp.send(
+          code: 400
+          message: "failure"
+          detail: "Please check your fields!"
+      )
+  )
+
+ctrl.checkDeviceId = (db, deviceId, fn) ->
+  collection = db.collection "cars"
+  collection.findOne({'deviceId':deviceId,'active':1} ,(err, car) ->
+    if car?
+      fn false
+    else
+      fn true
   )
