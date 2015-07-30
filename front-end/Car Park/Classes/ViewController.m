@@ -265,7 +265,6 @@
     
     UIDevice *device = [UIDevice currentDevice];
     NSString  *currentDeviceId = [[device identifierForVendor]UUIDString];
-    NSLog(currentDeviceId);
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://oeaslan.com/node/getlocation/%@",currentDeviceId]]] options:NSJSONReadingAllowFragments error:nil];
     NSString *result = [dict objectForKey:@"message"];
     if ([result isEqualToString:@"success"]) {
@@ -276,14 +275,22 @@
 
 - (void)reloadAvailability
 {
-    NSDictionary *slotsDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://oeaslan.com/node/getfilledslots"]] options:NSJSONReadingAllowFragments error:nil];
-    self.filledSlots = [slotsDict objectForKey:@"slots"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSDictionary *slotsDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://oeaslan.com/node/getfilledslots"]]
+                                                                  options:NSJSONReadingAllowFragments
+                                                                    error:nil];
+        self.filledSlots = [slotsDict objectForKey:@"slots"];
+        
+        [self.collectionView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    });
 }
 
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
+    
     self.floor = indexPath.row+1;
-    [self.collectionView reloadData];
+    [self reloadAvailability];
+    
 }
 
 @end
