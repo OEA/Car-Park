@@ -87,9 +87,27 @@
     [self reloadAvailability];
     
     if ([self isCellAvailable:indexPath :self.floor]) {
+        if (![self canCellSelectableForMe]) {
+            
+            UIAlertController *alertController = [UIAlertController
+                                                  alertControllerWithTitle:@"Parking action"
+                                                  message:@"You cannot park for two slots"
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancelAction = [UIAlertAction
+                                           actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
+                                           style:UIAlertActionStyleCancel
+                                           handler:^(UIAlertAction *action)
+                                           {
+                                               NSLog(@"Cancel action");
+                                               
+                                               
+                                           }];
+            [alertController addAction:cancelAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        } else {
         UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"test title"
-                                              message:@"Test"
+                                              alertControllerWithTitle:@"Parking action"
+                                              message:@"If you want to park here, please approve it."
                                               preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelAction = [UIAlertAction
                                        actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
@@ -104,7 +122,6 @@
                                    handler:^(UIAlertAction *action)
                                    {
                                     
-                                       
                                        UIDevice *device = [UIDevice currentDevice];
                                        NSString *currentDeviceId = [[device identifierForVendor]UUIDString];
                                        NSString *slot = [NSString stringWithFormat:@"%d,%d",indexPath.row / 15, indexPath.row % 15];
@@ -123,11 +140,18 @@
         [alertController addAction:cancelAction];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
+        }
+    } else if([self isCellOnMe:indexPath :self.floor]) {
         
-    } else {
+        UIDevice *device = [UIDevice currentDevice];
+        NSString *currentDeviceId = [[device identifierForVendor]UUIDString];
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://oeaslan.com/node/payment/calculate-from-id/%@",currentDeviceId]]] options:NSJSONReadingAllowFragments error:nil];
+        NSString *total = [dict objectForKey:@"total"];
+        NSString *currency = [dict objectForKey:@"currency"];
+        
         UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"test title"
-                                              message:@"Test"
+                                              alertControllerWithTitle:@"Pay parking fee"
+                                              message:[NSString stringWithFormat:@"Your parking cost is %ld %@",(long)[total integerValue],currency]
                                               preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelAction = [UIAlertAction
                                        actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
@@ -136,9 +160,45 @@
                                        {
                                            NSLog(@"Cancel action");
                                        }];
-
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"Pay", @"Pay action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       
+                                       UIDevice *device = [UIDevice currentDevice];
+                                       NSString *currentDeviceId = [[device identifierForVendor]UUIDString];
+                                       NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://oeaslan.com/node/payment/pay/%@",currentDeviceId]]] options:NSJSONReadingAllowFragments error:nil];
+                                       NSString *result = [dict objectForKey:@"message"];
+                                       if ([result isEqualToString:@"success"]) {
+                                           UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+                                           [cell setBackgroundColor:[UIColor greenColor]];
+                                       } else {
+                                           
+                                       }
+                                       
+                                       
+                                   }];
+        
         [alertController addAction:cancelAction];
+        [alertController addAction:okAction];
+        
         [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+//        UIAlertController *alertController = [UIAlertController
+//                                              alertControllerWithTitle:@"test title"
+//                                              message:@"Test"
+//                                              preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *cancelAction = [UIAlertAction
+//                                       actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
+//                                       style:UIAlertActionStyleCancel
+//                                       handler:^(UIAlertAction *action)
+//                                       {
+//                                           NSLog(@"Cancel action");
+//                                       }];
+//
+//        [alertController addAction:cancelAction];
+//        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
@@ -147,7 +207,7 @@
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSString *floor = [self.settings objectForKey:@"floor"];
-    return 5;
+    return [floor integerValue];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(nonnull UITableView *)tableView
@@ -198,6 +258,20 @@
     }
     return NO;
 
+}
+
+- (BOOL)canCellSelectableForMe
+{
+    
+    UIDevice *device = [UIDevice currentDevice];
+    NSString  *currentDeviceId = [[device identifierForVendor]UUIDString];
+    NSLog(currentDeviceId);
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://oeaslan.com/node/getlocation/%@",currentDeviceId]]] options:NSJSONReadingAllowFragments error:nil];
+    NSString *result = [dict objectForKey:@"message"];
+    if ([result isEqualToString:@"success"]) {
+        return NO;
+    }
+    return YES;
 }
 
 - (void)reloadAvailability
