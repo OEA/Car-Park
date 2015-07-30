@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8152.3" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2Mm-sJ-PX0">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8124.4"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ZrH-rt-F3M">
+            <objects>
+                <viewController id="2Mm-sJ-PX0" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rKD-uU-zGx"/>
+                        <viewControllerLayoutGuide type="bottom" id="T0j-wd-fGW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="R7g-CM-353">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dBH-U2-P4a">
+                                <rect key="frame" x="0.0" y="0.0" width="110" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="110" id="wTE-wu-5go"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="levelCell" textLabel="vDe-gE-RZz" style="IBUITableViewCellStyleDefault" id="4Fh-yO-Eaw">
+                                        <rect key="frame" x="0.0" y="22" width="110" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4Fh-yO-Eaw" id="Fya-N3-aiy">
+                                            <rect key="frame" x="0.0" y="0.0" width="110" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vDe-gE-RZz">
+                                                    <rect key="frame" x="15" y="0.0" width="80" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="SvH-9T-K8F">
+                                <rect key="frame" x="110" y="0.0" width="490" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gLF-kx-b5s">
+                                    <size key="itemSize" width="64" height="87"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="slotCell" id="iRh-wB-Foo">
+                                        <rect key="frame" x="0.0" y="0.0" width="64" height="87"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="87"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="SvH-9T-K8F" firstAttribute="top" secondItem="dBH-U2-P4a" secondAttribute="top" id="0l1-9W-fdO"/>
+                            <constraint firstItem="dBH-U2-P4a" firstAttribute="bottom" secondItem="T0j-wd-fGW" secondAttribute="top" id="bN3-9Y-rod"/>
+                            <constraint firstItem="SvH-9T-K8F" firstAttribute="bottom" secondItem="T0j-wd-fGW" secondAttribute="top" id="csL-B6-sUk"/>
+                            <constraint firstItem="dBH-U2-P4a" firstAttribute="leading" secondItem="R7g-CM-353" secondAttribute="leading" id="jgH-1Y-dJ1"/>
+                            <constraint firstAttribute="trailing" secondItem="SvH-9T-K8F" secondAttribute="trailing" id="oPh-wb-OfO"/>
+                            <constraint firstItem="SvH-9T-K8F" firstAttribute="top" secondItem="R7g-CM-353" secondAttribute="top" id="pxq-JF-KcY"/>
+                            <constraint firstItem="SvH-9T-K8F" firstAttribute="leading" secondItem="dBH-U2-P4a" secondAttribute="trailing" id="tIr-ye-RG8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="SvH-9T-K8F" id="W00-Pv-p45"/>
+                        <outlet property="tableView" destination="dBH-U2-P4a" id="AXX-hx-gfu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Aq9-F1-FKH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="710" y="-88"/>
+        </scene>
+    </scenes>
+</document>
