@@ -92,14 +92,7 @@ ctrl.init = (app, db) ->
     startDate = new Date()
     slot = req.query.slot
     floor = req.query.floor
-    @isAvailable = true
-    ctrl.checkDeviceId db, deviceId , (isAvailable) ->
-      if isAvailable
-        @isAvailable = true
-      else
-        @isAvailable = false
 
-    console.log @isAvailable
     if floor <= global.FLOOR and floor >= 0 and isAvailable
       car = new Car(deviceId, startDate, slot, floor, 1)
       db.collection 'cars', (err, collection) =>
