@@ -14,6 +14,7 @@
 		17A4A4F11B69EAF6002A8C22 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17A4A4F01B69EAF6002A8C22 /* Assets.xcassets */; };
 		17A4A4F41B69EAF6002A8C22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17A4A4F21B69EAF6002A8C22 /* LaunchScreen.storyboard */; };
 		17A4A4FF1B69EAF6002A8C22 /* Car_ParkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A4A4FE1B69EAF6002A8C22 /* Car_ParkTests.m */; };
+		17EA81F11B6A100700A8A54E /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17EA81F01B6A100700A8A54E /* NetworkManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		17A4A4FA1B69EAF6002A8C22 /* Car ParkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Car ParkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		17A4A4FE1B69EAF6002A8C22 /* Car_ParkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Car_ParkTests.m; sourceTree = "<group>"; };
 		17A4A5001B69EAF6002A8C22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		17EA81EF1B6A100700A8A54E /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		17EA81F01B6A100700A8A54E /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,10 +84,10 @@
 		17A4A4E31B69EAF6002A8C22 /* Car Park */ = {
 			isa = PBXGroup;
 			children = (
+				17EA81EE1B6A0F4100A8A54E /* Manager */,
+				17EA81EC1B6A0E4100A8A54E /* Classes */,
 				17A4A4E71B69EAF6002A8C22 /* AppDelegate.h */,
 				17A4A4E81B69EAF6002A8C22 /* AppDelegate.m */,
-				17A4A4EA1B69EAF6002A8C22 /* ViewController.h */,
-				17A4A4EB1B69EAF6002A8C22 /* ViewController.m */,
 				17A4A4ED1B69EAF6002A8C22 /* Main.storyboard */,
 				17A4A4F01B69EAF6002A8C22 /* Assets.xcassets */,
 				17A4A4F21B69EAF6002A8C22 /* LaunchScreen.storyboard */,
@@ -109,6 +112,24 @@
 				17A4A5001B69EAF6002A8C22 /* Info.plist */,
 			);
 			path = "Car ParkTests";
+			sourceTree = "<group>";
+		};
+		17EA81EC1B6A0E4100A8A54E /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				17A4A4EA1B69EAF6002A8C22 /* ViewController.h */,
+				17A4A4EB1B69EAF6002A8C22 /* ViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		17EA81EE1B6A0F4100A8A54E /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				17EA81EF1B6A100700A8A54E /* NetworkManager.h */,
+				17EA81F01B6A100700A8A54E /* NetworkManager.m */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17EA81F11B6A100700A8A54E /* NetworkManager.m in Sources */,
 				17A4A4EC1B69EAF6002A8C22 /* ViewController.m in Sources */,
 				17A4A4E91B69EAF6002A8C22 /* AppDelegate.m in Sources */,
 				17A4A4E61B69EAF6002A8C22 /* main.m in Sources */,
@@ -402,6 +424,7 @@
 				17A4A5051B69EAF6002A8C22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		17A4A5061B69EAF6002A8C22 /* Build configuration list for PBXNativeTarget "Car ParkTests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +433,7 @@
 				17A4A5081B69EAF6002A8C22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
